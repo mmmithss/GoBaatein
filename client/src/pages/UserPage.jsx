@@ -1,6 +1,6 @@
 import React from "react";
 import useAuthUser from "../hooks/useAuthUser";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { CameraIcon, MapPinIcon, ShuffleIcon } from "lucide-react";
 import { LANGUAGES } from "../constants/consts";
 import { useState } from "react";
