@@ -12,7 +12,28 @@ export const LANGUAGES = [
   "Arabic",
   "Italian",
   "Turkish",
-  "Dutch"
+  "Dutch",
+  // Indian languages
+  "Bengali",
+  "Tamil",
+  "Telugu",
+  "Marathi",
+  "Gujarati",
+  "Kannada",
+  "Malayalam",
+  "Odia",
+  "Punjabi",
+  "Urdu",
+  "Assamese",
+  "Maithili",
+  "Santali",
+  "Konkani",
+  "Manipuri",
+  "Dogri",
+  "Sindhi",
+  "Kashmiri",
+  "Bhojpuri",
+  "Rajasthani"
 ];
 
 export const THEMES = [
