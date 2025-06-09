@@ -1,19 +1,15 @@
 import React from "react";
 import useAuthUser from "../hooks/useAuthUser";
-import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  CameraIcon,
-  CodeIcon,
-  Loader2Icon,
-  MapPinIcon,
-  ShuffleIcon,
-} from "lucide-react";
-
-import { LANGUAGES } from "../constants/consts.js";
-import { onboarding } from "../lib/api.js";
+import { CameraIcon, MapPinIcon, ShuffleIcon } from "lucide-react";
+import { LANGUAGES } from "../constants/consts";
+import { useState } from "react";
+import { onboarding } from "../lib/api";
 import toast from "react-hot-toast";
-const OnboardingPage = () => {
+import { useNavigate } from "react-router";
+import DeleteUserBtn from "../components/DeleteUserBtn";
+
+const UserPage = () => {
   const { authUser } = useAuthUser();
 
   const [formData, setFormData] = useState({
@@ -25,38 +21,27 @@ const OnboardingPage = () => {
     profilePic: authUser?.profilePic || "",
   });
 
-  const queryClient = useQueryClient();
-
-  const { mutate: onboardingMutation, isPending } = useMutation({
+  const navigate = useNavigate();
+  const { mutate: profileUpdateMutation, isPending } = useMutation({
     mutationFn: onboarding,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["authUser"] });
-      toast.success("Onboarding successful");
-    },
-    onError: (error) => {
-      console.log(error.response.data);
-      toast.error(error.response.data.message);
-      toast.error(
-        "Missing fields :\n" + error.response.data.missingFields.join("\n")
-      );
+      toast.success("Profile updated");
+      // navigate to home page
+      navigate("/");
     },
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onboardingMutation(formData);
+    profileUpdateMutation(formData);
   };
 
   const handleRandomAvatar = () => {
-    const randomAvatar = `https://api.dicebear.com/6.x/adventurer/svg?seed=${Math.random()}&flip=true&backgroundType=gradientLinear&featuresProbability=10&hairProbability=95&backgroundColor=c0aede`; // Generate a random avatar URL
+    const randomAvatar = `https://api.dicebear.com/6.x/adventurer/svg?seed=${Math.random()}&flip=true&backgroundType=gradientLinear&featuresProbability=10&hairProbability=95&backgroundColor=c0aede`;
     setFormData({ ...formData, profilePic: randomAvatar });
   };
-
   return (
-    <div
-      className="min-h-screen bg-base-100 flex items-center justify-center p-4"
-      data-theme="dracula"
-    >
+    <div className="min-h-screen bg-base-100 flex items-center justify-center p-4">
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -193,23 +178,16 @@ const OnboardingPage = () => {
                 />
               </label>
             </div>
-            <button
-              type="submit"
-              className="btn btn-primary w-full"
-              disabled={isPending}
-            >
-              {isPending ? (
-                <>
-                  <Loader2Icon className="animate-spin size-4 mr-2" />
-                  Loading...
-                </>
-              ) : (
-                <>
-                  <CodeIcon className="size-4 mr-2" />
-                  Get Onboarded
-                </>
-              )}
-            </button>
+            <div className="justify-between flex w-full">
+              <DeleteUserBtn userFullName={authUser?.fullName} />
+              <button
+                className="btn btn-secondary"
+                type="submit"
+                disabled={isPending}
+              >
+                {isPending ? "Saving..." : "Save"}
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -217,4 +195,4 @@ const OnboardingPage = () => {
   );
 };
 
-export default OnboardingPage;
+export default UserPage;

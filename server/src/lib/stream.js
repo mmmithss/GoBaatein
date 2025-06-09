@@ -20,6 +20,17 @@ export const upsertStreamUser = async userData => {
   }
 };
 
+export const deleteStreamUser = async userId => {
+  try {
+    await serverClient.deleteUser(userId, {hard_delete: true});
+    console.log(`Successfully deleted Stream user with ID: ${userId}`);
+  } catch (error) {
+    console.error(
+      "Error deleting Stream user:", error.response
+      ?.data || error.message || error);
+  }
+};
+
 export const generateStreamToken = async userId => {
   try {
     //user id as a string
