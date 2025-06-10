@@ -9,7 +9,8 @@ import {
   sendFriendRequest,
   acceptFriendRequest,
   getFriendRequests,
-  getOngoingFriendRequests
+  getOngoingFriendRequests,
+  deleteAccount
 } from "../controllers/user.controllers.js";
 
 //using auth middleware to protect the routes
@@ -23,5 +24,7 @@ router.put("/friend-request/:id/accept", acceptFriendRequest);
 
 router.get("/friend-requests", getFriendRequests);
 router.get("/outgoing-friend-requests", getOngoingFriendRequests);
+
+router.delete("/delete-account", deleteAccount);
 
 export default router;

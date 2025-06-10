@@ -64,3 +64,8 @@ export const getStreamToken = async () => {
   const res = await axiosInstance.get("/chat/token");
   return res.data;
 };
+
+export const deleteAccount = async () => {
+  const res = await axiosInstance.delete("/user/delete-account");
+  return res.data;
+};

@@ -44,13 +44,15 @@ const NavBar = ({ showSidebar }) => {
           <ThemeSelector />
 
           <div className="avatar mr-1">
-            <div className="w-9 rounded-full">
-              <img
-                src={authUser?.profilePic}
-                alt="User Avatar"
-                rel="noreferrer"
-              />
-            </div>
+            <Link to={"/profile"}>
+              <div className="w-9 rounded-full overflow-hidden">
+                <img
+                  src={authUser?.profilePic}
+                  alt="User Avatar"
+                  rel="noreferrer"
+                />
+              </div>
+            </Link>
           </div>
 
           <button className="btn btn-ghost btn-circle" onClick={logoutMutation}>

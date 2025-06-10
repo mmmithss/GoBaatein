@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import FriendRequest from "../models/FriendRequest.js";
+import {deleteStreamUser} from "../lib/stream.js";
 
 export async function getRecommendedUsers(req, res) {
   try {
@@ -142,5 +143,39 @@ export async function getOngoingFriendRequests(req, res) {
   } catch (error) {
     console.log("Error in get Ongoing Friend Requests ", error);
     res.status(500).json({message: "Internal Server Error"});
+  }
+}
+
+export async function deleteAccount(req, res) {
+  const userId = req.user._id;
+  try {
+    await User.find({friends: userId}).updateMany({
+      $pull: {
+        friends: userId
+      }
+    });
+
+    await FriendRequest.deleteMany({
+      $or: [
+        {
+          sender: userId
+        }, {
+          recipient: userId
+        }
+      ]
+    });
+    try {
+      await deleteStreamUser(userId);
+    } catch (error) {
+      console.error(
+        "Error deleting Stream user:", error.response
+        ?.data || error.message || error);
+    }
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+    res.clearCookie("jwt");
+    return res.status(200).json({success: true, user: deletedUser});
+  } catch (error) {
+    console.error("Error in delete account controller", error);
   }
 }

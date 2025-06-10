@@ -13,6 +13,7 @@ import useAuthUser from "./hooks/useAuthUser.jsx";
 import PageLoading from "./components/PageLoading.jsx";
 import Layout from "./components/Layout.jsx";
 import { useStoreForTheme } from "./store/useStore.js";
+import UserPage from "./pages/UserPage.jsx";
 
 const App = () => {
   const { theme } = useStoreForTheme();
@@ -98,6 +99,16 @@ const App = () => {
           element={
             <ProtectRoute>
               <VideoCallPage />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectRoute>
+              <Layout>
+                <UserPage />
+              </Layout>
             </ProtectRoute>
           }
         />
