@@ -99,12 +99,11 @@ In a linguistically diverse country like India, there is a **lack of dedicated s
 
 ### 6. Deployment
 
-* Optional: CI/CD with GitHub Actions
-* **Frontend Hosting:** Vercel
-* **Backend Hosting:** Render/Heroku
+
+* **Frontend Hosting, Backend Hosting:** Render
 * **Database:** MongoDB Atlas
 * Environment variables (Stream keys, JWT secrets) handled securely.
-
+* Optional: CI/CD with GitHub Actions
 
 
 ### 7. Future Enhancements
